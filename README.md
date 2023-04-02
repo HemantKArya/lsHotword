@@ -1,16 +1,16 @@
-# lsHotword
+# lsHotword 🤖
 [![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/HemantKArya)
 
 **lsHotword** detector is Easy to use Module Which is open-Source and **Free License**.This module is created with the help of **Deeplearning.ai 's Deep Learning Program**. If you have any problem you can contact me on my E-mail at the last of this Document. For any Help we also have YouTube channel link is at the last of this file.
 
-# Install lsHotword using pip
+# Install lsHotword using pip ✌
  To install lsHotword open cmd and type-
  ```
  pip install lsHotword
  ```
  make sure your python should be on path.
 
-# Training Your Own Model
+# Training Your Own Model 😊
 ## Create Dataset
 To train your own Model you have to create your Dataset.
 Record 10 audio with voice **Activate** and place it under "Positives folder" and record 10 **Non-Activate Word ** Which are not Activate and place it under negatives folder. And like that record 2 or more than 2 background noises in different environments of 10 seconds. Make sure to record these audios of in 44100 Hz sample rate, either will you have to change too many parameters. Examples are provided on Github(from coursera's deep learning program).
@@ -48,7 +48,7 @@ lsHTestModel --model ./model.h5
 ```
 and then you will see a text like **<<Waiting for Hotword>>** when you see this text then try to speak your wake word and see a chime sound will beep!!
 
-# Using Trained Model
+# Using Trained Model 😎
 
 After installing **lsHotword** and training your own model e.g **model.h5** then you are ready to use it any program where you want to use it. Example-
 
@@ -64,7 +64,7 @@ if hotword.HotwordLoop():
 
 ```
 
-# For More Information
+# For More Information 😻
 
 For more information or send your query at:
 iamhemantindia@protonmail.com
