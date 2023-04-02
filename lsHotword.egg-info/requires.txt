@@ -1,0 +1,6 @@
+matplotlib
+numpy
+pydub
+pyaudio
+tensorflow
+scipy

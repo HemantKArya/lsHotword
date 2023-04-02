@@ -1,0 +1,4 @@
+[console_scripts]
+lsHDatagen = lsHotword.funcHDatagen:main
+lsHTestModel = lsHotword.ls:HTest
+lsHTrainer = lsHotword.funcHTrainer:main
