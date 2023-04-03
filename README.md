@@ -33,6 +33,16 @@ Your Directory should look like this-
         - .
         - .
 
+Audio files info-
+
+**positives/** -> 44100Hz, length may vary but under 10 seconds. Audio contains only the sound of keyword(Hotword). e.g [See Here.](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data/positives)
+
+**negetives/** -> 44100Hz, length may vary but under 10 seconds. Audio contains only the sound of keyword opposite to Hotword. e.g [See here.](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data/negatives)
+
+**background/** -> 44100Hz, lenght should exactly be 10 second. e.g [See here.](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data/backgrounds)
+
+
+
 Then open command prompt here (eg. outside "data" folder) and type-.
 ```
 lsHDatagen --input ./data --nsamp 32
@@ -46,7 +56,7 @@ and then after few minutes you will get your model  with name **model.h5**, Hurr
 ```
 lsHTestModel --model ./model.h5
 ```
-and then you will see a text like **<<Waiting for Hotword>>** when you see this text then try to speak your wake word and see a chime sound will beep!!
+and then you will see a text like **<< Waiting for Hotword >>** when you see this text then try to speak your wake word and see a chime sound will beep!!
 
 # Using Trained Model 😎
 
