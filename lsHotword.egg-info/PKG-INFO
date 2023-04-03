@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: lsHotword
-Version: 1.1.1
+Version: 1.1.2
 Summary: Hotword/Wake Word detection in python for all platforms(Windows/Linux/Mac).
 Home-page: https://github.com/HemantKArya/lsHotword
 Download-URL: 
@@ -14,7 +14,7 @@ License-File: LICENSE
 # lsHotword 🤖
 [![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/HemantKArya)
 
-**lsHotword** detector is Easy to use Module Which is open-Source and **Free License**.This module is created with the help of **Deeplearning.ai 's Deep Learning Program**. If you have any problem you can contact me on my E-mail at the last of this Document. For any Help we also have YouTube channel link is at the last of this file.
+**lsHotword** detector is an easy-to-use module which is open-source and comes with a **Free License**. This module was created with the help of **Deeplearning.ai 's Deep Learning Program**. If you have any problems, you can contact me via my email, which is provided at the end of this document. For further assistance, we also have a YouTube channel - the link to which is also provided below.
 
 # Install lsHotword using pip ✌
  To install lsHotword open cmd and type-
@@ -26,8 +26,8 @@ License-File: LICENSE
 # Training Your Own Model 😊
 ## Create Dataset
 To train your own Model you have to create your Dataset.
-Record 10 audio with voice **Activate** and place it under "Positives folder" and record 10 **Non-Activate Word ** Which are not Activate and place it under negatives folder. And like that record 2 or more than 2 background noises in different environments of 10 seconds. Make sure to record these audios of in 44100 Hz sample rate, either will you have to change too many parameters. Examples are provided on Github(from coursera's deep learning program).
-Your Directory should look like this-
+Record 10 audio with voice **Activate** and place it under "Positives folder" and record 10 **Non-Activate Word** Which are not Activate and place it under negatives folder.Finally, record two or more background noises in different environments, each of 10 seconds duration. Ensure that these audio files are recorded in a sample rate of 44100 Hz; otherwise, you will have to change too many parameters. Examples are provided on Github (from Coursera's Deep Learning Program).
+Your directory structure should look like this:
 - data/
     - background/
         - file1.wav
@@ -48,9 +48,9 @@ Your Directory should look like this-
 
 Audio files info-
 
-**positives/** -> 44100Hz, length may vary but under 10 seconds. Audio contains only the sound of keyword(Hotword). e.g [See Here.](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data/positives)
+**positives/** -> 44100Hz, length may vary, but it should be under 10 seconds. Audio files should contain only the sound of the keyword (Hotword). See an example [Here.](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data/positives)
 
-**negetives/** -> 44100Hz, length may vary but under 10 seconds. Audio contains only the sound of keyword opposite to Hotword. e.g [See here.](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data/negatives)
+**negetives/** -> 44100Hz, length may vary, but it should be under 10 seconds. Audio files should contain only the sound of the keyword opposite to the hotword. See an example [here.](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data/negatives)
 
 **background/** -> 44100Hz, lenght should exactly be 10 second. e.g [See here.](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data/backgrounds)
 
