@@ -8,7 +8,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 setup(
   name = 'lsHotword',
   packages = ['lsHotword'],
-  version = '1.1.0',
+  version = '1.1.1',
   license='MIT',
   include_package_data=True,
   long_description=long_description,

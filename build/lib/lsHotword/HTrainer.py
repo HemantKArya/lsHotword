@@ -120,13 +120,13 @@ epoch = args.epochs
 
 model.fit(X,Y,batch_size=10,epochs=epoch)
 
-while True:
-    print("Wanna train more!! (y/n)")
-    ch = input('>> ')
-    if ch == 'y':
-        model.fit(X,Y,batch_size=5,epochs=5)
-    else:
-        break
+# while True:
+#     print("Wanna train more!! (y/n)")
+#     ch = input('>> ')
+#     if ch == 'y':
+#         model.fit(X,Y,batch_size=5,epochs=5)
+#     else:
+#         break
  
 model.save("model.h5")
 print("Model Saved !")
