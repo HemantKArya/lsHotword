@@ -1,34 +1,16 @@
-from __future__ import print_function
 from numpy.random import randint
 from numpy import zeros,array
 from numpy import save as npsave
 from pydub import AudioSegment
-import sys
 import os
 from scipy.io import wavfile
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, Activation, Dropout, Input, TimeDistributed, Conv1D
-from tensorflow.keras.layers import GRU, BatchNormalization
 from tensorflow.keras.optimizers import Adam
 print("Full Hotword Data Generator and Trainer")
 import argparse
 from matplotlib.pyplot import specgram
 from sklearn.model_selection import train_test_split
+from . import hotword as ht
 
-
-
-# Calculate and plot spectrogram for a wav audio file
-def graph_spectrogram(wav_file):
-    rate, data = get_wav_info(wav_file)
-    nfft = 200 # Length of each window segment
-    fs = 8000 # Sampling frequencies
-    noverlap = 120 # Overlap between windows
-    nchannels = data.ndim
-    if nchannels == 1:
-        pxx, freqs, bins, im = specgram(data, nfft, fs, noverlap = noverlap)
-    elif nchannels == 2:
-        pxx, freqs, bins, im = specgram(data[:,0], nfft, fs, noverlap = noverlap)
-    return pxx
 
 # Load a wav file
 def get_wav_info(wav_file):
@@ -253,51 +235,11 @@ def create_training_example(background, activates, negatives):
     print("File (train.wav) was saved in your directory.")
     
     # Get and plot spectrogram of the new recording (background with superposition of positive and negatives)
-    x = graph_spectrogram("train.wav")
+    x = ht.graph_spectrogram("train.wav")
     print(y)
     return x, y
 
  
-def Hmodel(input_shape):
-    """
-    Function creating the model's graph in Keras.
-    
-    Argument:
-    input_shape -- shape of the model's input data (using Keras conventions)
-
-    Returns:
-    model -- Keras model instance
-    with the help of Andrew ng and Hemant Kumar
-    """
-    
-    X_input = Input(shape = input_shape)
-    
- 
-    
-    # Step 1: CONV layer (≈4 lines)
-    X = Conv1D(196, kernel_size=15, strides=4)(X_input)                                 # CONV1D
-    X = BatchNormalization()(X)                                 # Batch normalization
-    X = Activation('relu')(X)                                 # ReLu activation
-    X = Dropout(0.8)(X)                                 # dropout (use 0.8)
-
-    # Step 2: First GRU Layer (≈4 lines)
-    X = GRU(units = 128, return_sequences = True)(X) # GRU (use 128 units and return the sequences)
-    X = Dropout(0.8)(X)                                 # dropout (use 0.8)
-    X = BatchNormalization()(X)                                 # Batch normalization
-    
-    # Step 3: Second GRU Layer (≈4 lines)
-    X = GRU(units = 128, return_sequences = True)(X)   # GRU (use 128 units and return the sequences)
-    X = Dropout(0.8)(X)                                 # dropout (use 0.8)
-    X = BatchNormalization()(X)                                  # Batch normalization
-    X = Dropout(0.8)(X)                                  # dropout (use 0.8)
-    
-    # Step 4: Time-distributed dense layer (≈1 line)
-    X = TimeDistributed(Dense(1, activation = "sigmoid"))(X) # time distributed  (sigmoid)
-
-
-    model = Model(inputs = X_input, outputs = X)
-    
-    return model
 
 def main():
     global Ty
@@ -308,9 +250,10 @@ def main():
     parser.add_argument('--nsamp', action='store', type=int, default=32) 
     parser.add_argument('--nf', action='store', type=int, default=101)  # default for 44100Hz audio file
     parser.add_argument('--ty', action='store', type=int, default=1375) # default for 44100Hz audio file
+    parser.add_argument('--bsize', action='store', type=int, default=10) # default for 44100Hz audio file
     args = parser.parse_args()
     Ty = args.ty # The number of time steps in the output of our model
-    TrainHotwordModel(pathD=args.input,epochs=args.epochs,Tx=args.tx,n_freq=args.nf,nsamples=args.nsamp,ty=args.ty)
+    TrainHotwordModel(pathD=args.input,epochs=args.epochs,Tx=args.tx,n_freq=args.nf,nsamples=args.nsamp,ty=args.ty,batch_size=args.bsize)
     
 
 def TrainHotwordModel(pathD,epochs,Tx=5511,n_freq=101,nsamples=30,ty=1375,batch_size=10):
@@ -341,7 +284,7 @@ def TrainHotwordModel(pathD,epochs,Tx=5511,n_freq=101,nsamples=30,ty=1375,batch_
     assert Y.shape[1] == Ty, "Error: Y not have correct dimentions"
     assert X.shape[1] == Tx, "Error: X not have correct dimentions"
     X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=37)
-    model = Hmodel(input_shape = (Tx, n_freq))
+    model = ht.Hmodel(input_shape = (Tx, n_freq))
     model.summary()
     opt = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, decay=0.01)
     model.compile(loss='binary_crossentropy', optimizer=opt, metrics=["accuracy"])

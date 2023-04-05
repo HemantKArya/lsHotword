@@ -8,7 +8,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 setup(
   name = 'lsHotword',
   packages = ['lsHotword'],
-  version = '1.1.3',
+  version = '1.2.0',
   license='MIT',
   include_package_data=True,
   long_description=long_description,
@@ -28,12 +28,14 @@ setup(
           'pydub',
           'pyaudio',
           'tensorflow',
-          'scipy'
+          'scipy',
+          'pyqt6'
       ],
   entry_points={
         'console_scripts': ['lshTrainer = lsHotword.funcHTrainer:main',
                             'lshDatagen = lsHotword.funcHDatagen:main',
                             'lshTestModel = lsHotword.ls:HTest',
+                            'lshUITrainer = lsHotword.uitrainer:main',
                             'lshModelTrainer = lsHotword.funcHfTrainModel:main']
     },
   classifiers=[],
