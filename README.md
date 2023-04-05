@@ -1,7 +1,7 @@
 # lsHotword
 ![lshotword-banner](https://github.com/HemantKArya/lsHotword/raw/main/docfiles/lshotword_banner.png)
 
-[![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/HemantKArya/lsHotword)
+[![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/HemantKArya/lsHotword)   [![pypi](https://img.shields.io/badge/pypi-3775A9?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/lsHotword/)     [![linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/iamhemantindia)  
 
 **lsHotword** is Wake Word detector and Easy to use Module Which is open-Source and **Free License**.If you face any problem you can contact me on my E-mail at the last of this Document. For any Help we also have YouTube channel link is at the last of this file.
 
