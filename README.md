@@ -1,5 +1,5 @@
 # lsHotword 🤖
-![lshotword](./lshotword_banner.jpg)
+![lshotword](./lshotword_banner.png)
 [![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/HemantKArya)
 
 **lsHotword** detector is Easy to use Module Which is open-Source and **Free License**.This module is created with the help of **Deeplearning.ai 's Deep Learning Program**. If you have any problem you can contact me on my E-mail at the last of this Document. For any Help we also have YouTube channel link is at the last of this file.
