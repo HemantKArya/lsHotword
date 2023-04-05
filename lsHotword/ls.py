@@ -4,7 +4,7 @@ import numpy as np
 from pydub import AudioSegment
 from pydub.playback import play
 import sys
-from lsHotword import hotword as ht
+from . import hotword as ht
 import argparse
 
 from tensorflow.keras.models import Model, load_model

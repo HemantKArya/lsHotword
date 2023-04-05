@@ -1,4 +1,6 @@
 [console_scripts]
-lsHDatagen = lsHotword.funcHDatagen:main
-lsHTestModel = lsHotword.ls:HTest
-lsHTrainer = lsHotword.funcHTrainer:main
+lshDatagen = lsHotword.funcHDatagen:main
+lshModelTrainer = lsHotword.funcHfTrainModel:main
+lshTestModel = lsHotword.ls:HTest
+lshTrainer = lsHotword.funcHTrainer:main
+lshUITrainer = lsHotword.uitrainer:main

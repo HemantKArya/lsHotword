@@ -3,9 +3,51 @@ from scipy.io import wavfile
 import os
 from pydub import AudioSegment
 import numpy as np
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense, Activation, Dropout, Input, TimeDistributed, Conv1D
+from tensorflow.keras.layers import GRU, BatchNormalization
+from matplotlib.mlab import specgram
 
-import matplotlib.mlab as mlab
+def Hmodel(input_shape):
+    """
+    Function creating the model's graph in Keras.
+    
+    Argument:
+    input_shape -- shape of the model's input data (using Keras conventions)
 
+    Returns:
+    model -- Keras model instance
+    with the help of Andrew ng and Hemant Kumar
+    """
+    
+    X_input = Input(shape = input_shape)
+    
+ 
+    
+    # Step 1: CONV layer (≈4 lines)
+    X = Conv1D(196, kernel_size=15, strides=4)(X_input)                                 # CONV1D
+    X = BatchNormalization()(X)                                 # Batch normalization
+    X = Activation('relu')(X)                                 # ReLu activation
+    X = Dropout(0.8)(X)                                 # dropout (use 0.8)
+
+    # Step 2: First GRU Layer (≈4 lines)
+    X = GRU(units = 128, return_sequences = True)(X) # GRU (use 128 units and return the sequences)
+    X = Dropout(0.8)(X)                                 # dropout (use 0.8)
+    X = BatchNormalization()(X)                                 # Batch normalization
+    
+    # Step 3: Second GRU Layer (≈4 lines)
+    X = GRU(units = 128, return_sequences = True)(X)   # GRU (use 128 units and return the sequences)
+    X = Dropout(0.8)(X)                                 # dropout (use 0.8)
+    X = BatchNormalization()(X)                                  # Batch normalization
+    X = Dropout(0.8)(X)                                  # dropout (use 0.8)
+    
+    # Step 4: Time-distributed dense layer (≈1 line)
+    X = TimeDistributed(Dense(1, activation = "sigmoid"))(X) # time distributed  (sigmoid)
+
+
+    model = Model(inputs = X_input, outputs = X)
+    
+    return model
 # Calculate and plot spectrogram for a wav audio file
 def graph_spectrogram(wav_file):
     rate, data = get_wav_info(wav_file)
@@ -29,24 +71,6 @@ def match_target_amplitude(sound, target_dBFS):
     change_in_dBFS = target_dBFS - sound.dBFS
     return sound.apply_gain(change_in_dBFS)
 
-# Load raw audio files for speech synthesis
-def load_raw_audio():
-    activates = []
-    backgrounds = []
-    negatives = []
-    for filename in os.listdir("./raw_data/activates"):
-        if filename.endswith("wav"):
-            activate = AudioSegment.from_wav("./raw_data/activates/"+filename)
-            activates.append(activate)
-    for filename in os.listdir("./raw_data/backgrounds"):
-        if filename.endswith("wav"):
-            background = AudioSegment.from_wav("./raw_data/backgrounds/"+filename)
-            backgrounds.append(background)
-    for filename in os.listdir("./raw_data/negatives"):
-        if filename.endswith("wav"):
-            negative = AudioSegment.from_wav("./raw_data/negatives/"+filename)
-            negatives.append(negative)
-    return activates, negatives, backgrounds
 
 
 def get_random_time_segment(segment_ms):
@@ -279,9 +303,9 @@ def get_spectrogram(data):
     noverlap = 120 # Overlap between windows
     nchannels = data.ndim
     if nchannels == 1:
-        pxx, _, _ = mlab.specgram(data, nfft, fs, noverlap = noverlap)
+        pxx, _, _ = specgram(data, nfft, fs, noverlap = noverlap)
     elif nchannels == 2:
-        pxx, _, _ = mlab.specgram(data[:,0], nfft, fs, noverlap = noverlap)
+        pxx, _, _ = specgram(data[:,0], nfft, fs, noverlap = noverlap)
     return pxx
 
 

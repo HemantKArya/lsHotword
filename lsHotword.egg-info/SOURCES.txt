@@ -2,14 +2,15 @@ LICENSE
 README.md
 setup.cfg
 setup.py
-lsHotword/HDatagen.py
-lsHotword/HTrainer.py
 lsHotword/__init__.py
 lsHotword/chime.wav
 lsHotword/funcHDatagen.py
 lsHotword/funcHTrainer.py
+lsHotword/funcHfTrainModel.py
 lsHotword/hotword.py
 lsHotword/ls.py
+lsHotword/lsrc.py
+lsHotword/uitrainer.py
 lsHotword.egg-info/PKG-INFO
 lsHotword.egg-info/SOURCES.txt
 lsHotword.egg-info/dependency_links.txt

@@ -4,3 +4,4 @@ pydub
 pyaudio
 tensorflow
 scipy
+pyqt6
