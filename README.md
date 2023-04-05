@@ -1,5 +1,5 @@
 # lsHotword
-![lshotword-banner](./docfiles/lshotword_banner.png)
+![lshotword-banner](https://github.com/HemantKArya/lsHotword/raw/main/docfiles/lshotword_banner.png)
 
 [![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/HemantKArya/lsHotword)
 
@@ -41,7 +41,7 @@ Your Directory should look like this-
         - .
         
 
-![audioexample](./docfiles/Q4tnfi3E.png)
+![audioexample](https://github.com/HemantKArya/lsHotword/raw/main/docfiles/Q4tnfi3E.png)
 
 Then open command prompt here (eg. outside "data" folder) and type-.
 
@@ -49,7 +49,7 @@ Then open command prompt here (eg. outside "data" folder) and type-.
 lshUITrainer
 ```
 Press enter and you will see this window-
-![lshotwordtrainerwindow](./docfiles/UsGpiupQt1.png)
+![lshotwordtrainerwindow](https://github.com/HemantKArya/lsHotword/raw/main/docfiles/UsGpiupQt1.png)
 
 1. Import **positives** audio folder.
 2. Import **negative** audio folder.
@@ -58,13 +58,13 @@ Press enter and you will see this window-
 5. No. of training examples to generate keep it 30 and increase it if you have more data and for more better accuracy in result.
 6. No. of **Epochs** (How much times you want to train your model eg 100-400).
 7. Batch size increase it if you have more GPU power or keep it same.
-![after-t-step](./docfiles/3AwBBo2nOR.png)
+![after-t-step](https://github.com/HemantKArya/lsHotword/raw/main/docfiles/3AwBBo2nOR.png)
 8. When 1-7 all steps are done then start training by clicking on this button.
 
 And you will see something like that-
-![starttraining](./docfiles/0mySroWeGr.png)
+![starttraining](https://github.com/HemantKArya/lsHotword/raw/main/docfiles/0mySroWeGr.png)
 When training finishes  you see the output directory where wake word model is saved.
-![training-complete](./docfiles/q34bpEOMao.png)
+![training-complete](https://github.com/HemantKArya/lsHotword/raw/main/docfiles/q34bpEOMao.png)
 
 ## Without GUI (Optional)
 This is an alternative way, if GUI Trainer is not working or you want to do it step by step.
