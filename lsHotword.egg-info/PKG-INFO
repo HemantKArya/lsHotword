@@ -11,23 +11,29 @@ Keywords: hotword,detector,lshotword,windows,python,wake word,wake-word,detectio
 Description-Content-Type: text/markdown
 License-File: LICENSE
 
-# lsHotword 🤖
-![lshotword](./lshotword_banner.jpg)
-[![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/HemantKArya)
+# lsHotword
+![lshotword-banner](./docfiles/lshotword_banner.png)
 
-**lsHotword** detector is Easy to use Module Which is open-Source and **Free License**.This module is created with the help of **Deeplearning.ai 's Deep Learning Program**. If you have any problem you can contact me on my E-mail at the last of this Document. For any Help we also have YouTube channel link is at the last of this file.
+[![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/HemantKArya/lsHotword)
 
-# Install lsHotword using pip ✌
+**lsHotword** is Wake Word detector and Easy to use Module Which is open-Source and **Free License**.If you face any problem you can contact me on my E-mail at the last of this Document. For any Help we also have YouTube channel link is at the last of this file.
+
+# Install lsHotword using pip
  To install lsHotword open cmd and type-
  ```
- pip install lsHotword
+ pip install lsHotword --upgrade
  ```
- make sure your python should be on path.
+ Make sure your python should be on path.
 
-# Training Your Own Model 😊
+# Training Your Own Model
 ## Create Dataset
 To train your own Model you have to create your Dataset.
-Record 10 audio with voice **Activate** and place it under "Positives folder" and record 10 **Non-Activate Word ** Which are not Activate and place it under negatives folder. And like that record 2 or more than 2 background noises in different environments of 10 seconds. Make sure to record these audios of in 44100 Hz sample rate, either will you have to change too many parameters. Examples are provided on Github(from coursera's deep learning program).
+Record 10 audio with voice **Activate** and place it under "Positives folder" and record 10 **Non-Activate Word ** Which are not Activate and place it under negatives folder. And like that record 2 or more than 2 background noises in different environments of 10 seconds. Make sure to record these audios in 44100 Hz sample rate, either will you have to change too many parameters.You can use free software and tools like-
+
+1. [Audacity](https://www.audacityteam.org/download/) Edit audio clips to select only 10 sec of background noise or exact part where you said you hotword in audio.
+2. [FFMpeg](https://ffmpeg.org/) for converting the sample rate to 44100Hz
+
+ [Examples are provided on Github for audio](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data) (from deeplearning.ai's deep learning program).
 Your Directory should look like this-
 - data/
     - background/
@@ -46,8 +52,37 @@ Your Directory should look like this-
         - file9.wav
         - .
         - .
+        
+
+![audioexample](./docfiles/Q4tnfi3E.png)
 
 Then open command prompt here (eg. outside "data" folder) and type-.
+
+```
+lshUITrainer
+```
+Press enter and you will see this window-
+![lshotwordtrainerwindow](./docfiles/UsGpiupQt1.png)
+
+1. Import **positives** audio folder.
+2. Import **negative** audio folder.
+3. Import **background** noise samples folder.
+4. Import Output directory where you want to save model after training.
+5. No. of training examples to generate keep it 30 and increase it if you have more data and for more better accuracy in result.
+6. No. of **Epochs** (How much times you want to train your model eg 100-400).
+7. Batch size increase it if you have more GPU power or keep it same.
+![after-t-step](./docfiles/3AwBBo2nOR.png)
+8. When 1-7 all steps are done then start training by clicking on this button.
+
+And you will see something like that-
+![starttraining](./docfiles/0mySroWeGr.png)
+When training finishes  you see the output directory where wake word model is saved.
+![training-complete](./docfiles/q34bpEOMao.png)
+
+## Without GUI (Optional)
+This is an alternative way, if GUI Trainer is not working or you want to do it step by step.
+
+Type this commmand to generate training examples from raw data-
 ```
 lsHDatagen --input ./data --nsamp 32
 ```
@@ -56,13 +91,18 @@ Now its time to train our Hotword Model open cmd again here and type-
 ```
 lsHTrainer --inX X.npy --inY Y.npy --epochs 600
 ```
-and then after few minutes you will get your model  with name **model.h5**, Hurray!! you just created your own hotword or wake word model. Now test it using this command-
+and then after few minutes you will get your model  with name **model.h5**, Hurray!! you just created your own hotword or wake word model. 
+
+## Test Hotword Model live
+Now test it using this command-
+
+'lsHTestModel --model < path to model >'
 ```
 lsHTestModel --model ./model.h5
 ```
-and then you will see a text like **<<Waiting for Hotword>>** when you see this text then try to speak your wake word and see a chime sound will beep!!
+and then you will see a text like **<< Waiting for Hotword >>** when you see this text then try to speak your wake word and see a chime sound will beep!!
 
-# Using Trained Model 😎
+# Using Trained Model
 
 After installing **lsHotword** and training your own model e.g **model.h5** then you are ready to use it any program where you want to use it. Example-
 
@@ -77,12 +117,22 @@ if hotword.HotwordLoop():
     print('Wake word Detected!!')    # print when hotword is detected.
 
 ```
+And thats all you are ready to go use it in any program you want to make. If you want to contribute to this little project then feel free to make push request on dev branch.
 
-# For More Information 😻
+*This module is created with the help of **Deeplearning.ai 's Deep Learning Program**.*
+# For More Information
 
 For more information or send your query at:
 iamhemantindia@protonmail.com
 
-or Checkout Our Youtube Channel
+Or
+
+ [![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/iamhemantindia)
+
+Or Checkout Our Youtube Channel
 
 [![youtube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/c/LogicalSpot)
+
+Feel free to **Contribute** at - 
+
+[![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/HemantKArya/lsHotword)
