@@ -1,19 +1,39 @@
-from numpy.random import randint
-from numpy import zeros,array
-from numpy import save as npsave
+from __future__ import print_function
+import numpy as np
 from pydub import AudioSegment
+import random
+import sys
 import os
 from scipy.io import wavfile
-try:
-    from tensorflow.keras.optimizers.legacy import Adam
-except:
-    from tensorflow.keras.optimizers import Adam
-print("Full Hotword Data Generator and Trainer")
+print("LsHotword DataGenrator")
 import argparse
-from matplotlib.pyplot import specgram
-from sklearn.model_selection import train_test_split
-from . import hotword as ht
+parser = argparse.ArgumentParser(description='Dir For Dataset e.g. neg an pos')
+parser.add_argument('--input', action='store', type=str, required=True)
+#Hyper-parameteres can be tweaked as per need
+parser.add_argument('--tx', action='store', type=int, default=5511) # default for 44100Hz 10sec audio file
+parser.add_argument('--nsamp', action='store', type=int, default=32) 
+parser.add_argument('--nf', action='store', type=int, default=101)  # default for 44100Hz audio file
+parser.add_argument('--ty', action='store', type=int, default=1375) # default for 44100Hz audio file
+args = parser.parse_args()
+pathD = args.input
 
+import matplotlib.pyplot as plt
+from scipy.io import wavfile
+import os
+from pydub import AudioSegment
+
+# Calculate and plot spectrogram for a wav audio file
+def graph_spectrogram(wav_file):
+    rate, data = get_wav_info(wav_file)
+    nfft = 200 # Length of each window segment
+    fs = 8000 # Sampling frequencies
+    noverlap = 120 # Overlap between windows
+    nchannels = data.ndim
+    if nchannels == 1:
+        pxx, freqs, bins, im = plt.specgram(data, nfft, fs, noverlap = noverlap)
+    elif nchannels == 2:
+        pxx, freqs, bins, im = plt.specgram(data[:,0], nfft, fs, noverlap = noverlap)
+    return pxx
 
 # Load a wav file
 def get_wav_info(wav_file):
@@ -26,7 +46,7 @@ def match_target_amplitude(sound, target_dBFS):
     return sound.apply_gain(change_in_dBFS)
 
 # Load raw audio files for speech synthesis
-def load_raw_audio(pathD):
+def load_raw_audio():
     activates = []
     backgrounds = []
     negatives = []
@@ -44,24 +64,16 @@ def load_raw_audio(pathD):
             negatives.append(negative)
     return activates, negatives, backgrounds
 
-def load_raw_audio_from_diff_path(posPath,negPath,bgPath):
-    activates = []
-    backgrounds = []
-    negatives = []
-    for filename in os.listdir(posPath):
-        if filename.endswith("wav"):
-            activate = AudioSegment.from_wav(os.path.join(posPath,filename))
-            activates.append(activate)
-    for filename in os.listdir(bgPath):
-        if filename.endswith("wav"):
-            background = AudioSegment.from_wav(os.path.join(bgPath,filename))
-            backgrounds.append(background)
-    for filename in os.listdir(negPath):
-        if filename.endswith("wav"):
-            negative = AudioSegment.from_wav(os.path.join(negPath,filename))
-            negatives.append(negative)
-    return activates, negatives, backgrounds
 
+Tx = args.tx # The number of time steps input to the model from the spectrogram
+n_freq = args.nf # Number of frequencies input to the model at each time step of the spectrogram
+nsamples = args.nsamp
+
+ 
+Ty = args.ty # The number of time steps in the output of our model
+
+ 
+activates, negatives, backgrounds = load_raw_audio()
 
  
 def get_random_time_segment(segment_ms):
@@ -75,7 +87,7 @@ def get_random_time_segment(segment_ms):
     segment_time -- a tuple of (segment_start, segment_end) in ms
     """
     
-    segment_start = randint(low=0, high=10000-segment_ms)   # Make sure segment doesn't run past the 10sec background 
+    segment_start = np.random.randint(low=0, high=10000-segment_ms)   # Make sure segment doesn't run past the 10sec background 
     segment_end = segment_start + segment_ms - 1
     
     return (segment_start, segment_end)
@@ -196,15 +208,15 @@ def create_training_example(background, activates, negatives):
 
   
     # Step 1: Initialize y (label vector) of zeros (≈ 1 line)
-    y = zeros((1, Ty))
+    y = np.zeros((1, Ty))
 
     # Step 2: Initialize segment times as empty list (≈ 1 line)
     previous_segments = []
  
     
     # Select 0-4 random "activate" audio clips from the entire list of "activates" recordings
-    number_of_activates = randint(0, 5)
-    random_indices = randint(len(activates), size=number_of_activates)
+    number_of_activates = np.random.randint(0, 5)
+    random_indices = np.random.randint(len(activates), size=number_of_activates)
     random_activates = [activates[i] for i in random_indices]
     
   
@@ -219,8 +231,8 @@ def create_training_example(background, activates, negatives):
     
 
     # Select 0-2 random negatives audio recordings from the entire list of "negatives" recordings
-    number_of_negatives = randint(0, 3)
-    random_indices = randint(len(negatives), size=number_of_negatives)
+    number_of_negatives = np.random.randint(0, 3)
+    random_indices = np.random.randint(len(negatives), size=number_of_negatives)
     random_negatives = [negatives[i] for i in random_indices]
 
    
@@ -238,59 +250,32 @@ def create_training_example(background, activates, negatives):
     print("File (train.wav) was saved in your directory.")
     
     # Get and plot spectrogram of the new recording (background with superposition of positive and negatives)
-    x = ht.graph_spectrogram("train.wav")
+    x = graph_spectrogram("train.wav")
     print(y)
     return x, y
 
+
+# np.random.seed(4543)
+# nsamples = 32
+X = []
+Y = []
+for i in range(0, nsamples):
+    if i%10 == 0:
+        print(i)
+    x, y = create_training_example(backgrounds[i % 2], activates, negatives)
+    X.append(x.swapaxes(0,1))
+    Y.append(y.swapaxes(0,1))
  
+X=np.array([X])
+X=X[0]
+Y=np.array([Y])
+Y=Y[0]
 
-def main():
-    global Ty
-    parser = argparse.ArgumentParser(description='Dir For Dataset e.g. neg an pos')
-    parser.add_argument('--input', action='store', type=str, required=True)
-    parser.add_argument('--epochs', action='store', type=int, required=True)
-    parser.add_argument('--tx', action='store', type=int, default=5511) # default for 44100Hz 10sec audio file
-    parser.add_argument('--nsamp', action='store', type=int, default=32) 
-    parser.add_argument('--nf', action='store', type=int, default=101)  # default for 44100Hz audio file
-    parser.add_argument('--ty', action='store', type=int, default=1375) # default for 44100Hz audio file
-    parser.add_argument('--bsize', action='store', type=int, default=10) # default for 44100Hz audio file
-    args = parser.parse_args()
-    Ty = args.ty # The number of time steps in the output of our model
-    TrainHotwordModel(pathD=args.input,epochs=args.epochs,Tx=args.tx,n_freq=args.nf,nsamples=args.nsamp,ty=args.ty,batch_size=args.bsize)
-    
+ 
+print(X.shape)
+print(X.ndim)
+print(Y.shape)
+print(Y.ndim)
 
-def TrainHotwordModel(pathD,epochs,Tx=5511,n_freq=101,nsamples=30,ty=1375,batch_size=10):
-    global Ty
-    Ty = ty
-    activates, negatives, backgrounds = load_raw_audio(pathD=pathD)
-    X = []
-    Y = []
-    for i in range(0, nsamples):
-        if i%10 == 0:
-            print(i)
-        x, y = create_training_example(backgrounds[i % 2], activates, negatives)
-        X.append(x.swapaxes(0,1))
-        Y.append(y.swapaxes(0,1))
-    X=array([X])
-    X=X[0]
-    Y=array([Y])
-    Y=Y[0]
-    print(X.shape)
-    print(X.ndim)
-    print(Y.shape)
-    print(Y.ndim)
-    npsave('./X.npy',X)
-    npsave('./Y.npy',Y)
-    print("Successfull!!")
-    assert X.ndim == 3, "Error: X not have correct dimentions"
-    assert Y.ndim == 3, "Error: Y not have correct dimentions"
-    assert Y.shape[1] == Ty, "Error: Y not have correct dimentions"
-    assert X.shape[1] == Tx, "Error: X not have correct dimentions"
-    X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=37)
-    model = ht.Hmodel(input_shape = (Tx, n_freq))
-    model.summary()
-    opt = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, decay=0.01)
-    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=["accuracy"])
-    model.fit(X,Y,batch_size=batch_size,epochs=epochs)
-    model.save("model.h5")
-    print("Model Saved !")
+np.save('./X.npy',X)
+np.save('./Y.npy',Y)

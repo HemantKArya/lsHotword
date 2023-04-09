@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: lsHotword
-Version: 1.2.2
+Version: 1.2.3
 Summary: Hotword/Wake Word detection in python for all platforms(Windows/Linux/Mac).
 Home-page: https://github.com/HemantKArya/lsHotword
 Download-URL: 

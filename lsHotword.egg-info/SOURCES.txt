@@ -2,6 +2,8 @@ LICENSE
 README.md
 setup.cfg
 setup.py
+lsHotword/HDatagen.py
+lsHotword/HTrainer.py
 lsHotword/__init__.py
 lsHotword/chime.wav
 lsHotword/funcHDatagen.py
