@@ -141,22 +141,23 @@ class Hotword():
         mic_index = mic_idx
         chime = AudioSegment.from_wav(chimePath)
         silence_threshold = silence_thres
+        self.chimeOnWake = chimeOnWake
         model = load_model(mpath)
-    def HotwordLoop(self):
+    def HotwordLoop(self,chimeOnWake=True):
+        self.chimeOnWake = chimeOnWake
         stream = get_audio_input_stream(callback)
         stream.start_stream()
-        
         try:
             while True:
-                print("<<Waiting for Hotword>>")
+                print("<<Waiting for Hotword>>\n")
                 data = q.get()
                 spectrum = ht.get_spectrogram(data)
                 preds = detect_triggerword_spectrum(spectrum)
                 new_trigger = has_new_triggerword(preds, chunk_duration, feed_duration)
                 # sys.stdout.write('1')
                 if new_trigger:
-                    sys.stdout.write('<<Activated>>')
-                    if chimeOnWake:
+                    print('<<Activated>>\n')
+                    if self.chimeOnWake:
                         play(chime)
                     stream.stop_stream()
                     stream.close()
