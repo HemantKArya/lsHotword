@@ -4,7 +4,10 @@ from os import path
 print("lsHotwordTrainer")
 import argparse
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.optimizers import Adam
+try:
+    from tensorflow.keras.optimizers.legacy import Adam
+except:
+    from tensorflow.keras.optimizers import Adam
 from . import hotword as ht
 
 

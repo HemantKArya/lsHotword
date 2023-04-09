@@ -22,7 +22,10 @@ import sys
 import os
 from scipy.io import wavfile
 from tensorflow.keras.callbacks import Callback
-from tensorflow.keras.optimizers import Adam
+try:
+    from tensorflow.keras.optimizers.legacy import Adam
+except:
+    from tensorflow.keras.optimizers import Adam
 print("Full Hotword Data Generator and Trainer")
 # import argparse
 from matplotlib.pyplot import specgram
