@@ -17,7 +17,7 @@
 To train your own Model you have to create your Dataset.
 Record 10 audio with voice **Activate** and place it under "Positives folder" and record 10 **Non-Activate Word ** Which are not Activate and place it under negatives folder. And like that record 2 or more than 2 background noises in different environments of 10 seconds. Make sure to record these audios in 44100 Hz sample rate, either will you have to change too many parameters.You can use free software and tools like-
 
-1. [Audacity](https://www.audacityteam.org/download/) Edit audio clips to select only 10 sec of background noise or exact part where you said you hotword in audio.
+1. [Audacity](https://www.audacityteam.org/download/) Edit audio clips to select only 10 sec of background noise or exact part where you said your hotword in audio(Watch tutorial on youtube for detailed instruction).
 2. [FFMpeg](https://ffmpeg.org/) for converting the sample rate to 44100Hz
 
  [Examples are provided on Github for audio](https://github.com/HemantKArya/lsHotword/tree/main/Examples/data) (from deeplearning.ai's deep learning program).
